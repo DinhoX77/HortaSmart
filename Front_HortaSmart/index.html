@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Horta Inteligente</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ═══════════════════════════════════════════════════════ HEADER -->
+    <header>
+      <div class="header-inner">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+              />
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+            </svg>
+          </div>
+          <div>
+            <div class="logo-title">Horta Inteligente</div>
+            <div class="logo-sub">Sistema IoT de Monitoramento</div>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="last-update">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+              <path d="M21 3v5h-5" />
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+              <path d="M8 16H3v5" />
+            </svg>
+            Atualizado: <span class="ts-value">31/03/2026 10:45</span>
+          </div>
+
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            ESP Online
+          </div>
+
+          <button
+            class="btn-icon"
+            id="btn-dark"
+            aria-label="Alternar modo escuro"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════ MAIN -->
+    <main>
+      <!-- TOP GRID: Moisture | Pump + Mode -->
+      <div class="top-grid">
+        <!-- ── MOISTURE CARD ── -->
+        <div class="card moisture-card">
+          <div class="card-header">
+            <span class="card-label">Umidade do Solo</span>
+            <div class="card-icon blue">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div class="gauge-wrap dry" id="gauge-wrap">
+            <div class="gauge-container">
+              <svg
+                class="gauge-svg"
+                width="180"
+                height="180"
+                viewBox="0 0 180 180"
+              >
+                <circle class="gauge-bg" cx="90" cy="90" r="70" />
+                <circle
+                  class="gauge-fill"
+                  id="gauge-fill"
+                  cx="90"
+                  cy="90"
+                  r="70"
+                  stroke-dasharray="439.82"
+                  stroke-dashoffset="439.82"
+                />
+              </svg>
+              <div class="gauge-center">
+                <svg
+                  id="gauge-icon"
+                  class="gauge-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"
+                  />
+                </svg>
+                <div class="gauge-value color-dry" id="gauge-value">28%</div>
+              </div>
+            </div>
+            <div class="gauge-label color-dry" id="gauge-label-text">
+              Solo Seco
+            </div>
+          </div>
+
+          <div class="moisture-stats">
+            <div class="stat-box">
+              <div class="label">Mín.</div>
+              <div class="value">18%</div>
+            </div>
+            <div class="stat-box">
+              <div class="label">Atual</div>
+              <div class="value" id="moisture-current">28%</div>
+            </div>
+            <div class="stat-box">
+              <div class="label">Máx.</div>
+              <div class="value">72%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── RIGHT COL ── -->
+        <div class="right-col">
+          <!-- PUMP CARD -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-label">Bomba d'Água</span>
+              <div class="card-icon muted" id="pump-card-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="pump-body">
+              <div class="pump-status-box" id="pump-status-box">
+                <div class="pump-orb off" id="pump-orb">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"
+                    />
+                  </svg>
+                </div>
+                <div class="pump-orb-label">
+                  <div class="pump-state off" id="pump-state-text">
+                    Desligada
+                  </div>
+                  <div class="pump-sub" id="pump-sub-text">Em standby</div>
+                </div>
+              </div>
+
+              <div class="pump-actions">
+                <button class="btn-pump turn-on" id="btn-pump">
+                  Ligar Bomba
+                </button>
+                <div class="pump-hint" id="pump-hint">
+                  Mude para manual para controlar
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODE CARD -->
+          <div class="card">
+            <div class="card-header" style="margin-bottom: 14px">
+              <div style="display: flex; align-items: center; gap: 8px">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="color: var(--primary)"
+                >
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
+                <span class="card-label">Modo de Operação</span>
+              </div>
+            </div>
+
+            <div class="mode-seg">
+              <button class="mode-btn active" id="btn-auto">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
+                Automático
+              </button>
+              <button class="mode-btn" id="btn-manual">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+                Manual
+              </button>
+            </div>
+
+            <div class="mode-hint auto" id="mode-hint">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+              </svg>
+              <span id="mode-hint-text"
+                >A bomba será acionada automaticamente quando a umidade cair
+                abaixo de 30%.</span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- /right-col -->
+      </div>
+      <!-- /top-grid -->
+
+      <!-- BOTTOM GRID: Chart | Alerts -->
+      <div class="bottom-grid">
+        <!-- ── CHART CARD ── -->
+        <div class="card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">Histórico de Umidade</div>
+              <div class="chart-sub">Últimas 12 horas</div>
+            </div>
+            <div class="chart-legend">
+              <div class="chart-legend-line"></div>
+              Solo (%)
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <canvas id="chart-canvas"></canvas>
+          </div>
+
+          <div class="chart-zones">
+            <div class="zone-item">
+              <div class="zone-dot" style="background: #ef4444"></div>
+              Seco (&lt;30%)
+            </div>
+            <div class="zone-item">
+              <div class="zone-dot" style="background: #f59e0b"></div>
+              Médio (30–60%)
+            </div>
+            <div class="zone-item">
+              <div class="zone-dot" style="background: #22c55e"></div>
+              Úmido (&gt;60%)
+            </div>
+          </div>
+        </div>
+
+        <!-- ── ALERTS CARD ── -->
+        <div class="card alerts-card">
+          <div class="alerts-header">
+            <div>
+              <div class="chart-title">Alertas Recentes</div>
+              <div id="alerts-sub" class="chart-sub">4 notificações</div>
+            </div>
+            <div class="alerts-count" id="alerts-count">2</div>
+          </div>
+
+          <div class="alerts-list" id="alerts-list">
+            <!-- populated by JS -->
+          </div>
+        </div>
+      </div>
+      <!-- /bottom-grid -->
+
+      <!-- FOOTER -->
+      <footer>
+        <div class="footer-left">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect width="5" height="5" x="3" y="3" rx="1" />
+            <rect width="5" height="5" x="16" y="3" rx="1" />
+            <rect width="5" height="5" x="3" y="16" rx="1" />
+            <path d="M21 16h-3a2 2 0 0 0-2 2v3" />
+            <path d="M21 21v.01" />
+            <path d="M12 7v3a2 2 0 0 1-2 2H7" />
+            <path d="M3 12h.01" />
+            <path d="M12 3h.01" />
+            <path d="M12 16v.01" />
+            <path d="M16 12h1" />
+            <path d="M21 12v.01" />
+            <path d="M12 21v-1" />
+          </svg>
+          ESP32 — Horta Inteligente v1.0
+        </div>
+        <span
+          >Atualizado em: <span class="ts-value">31/03/2026 10:45</span></span
+        >
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
